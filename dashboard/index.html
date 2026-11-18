@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Survey Chart — Token Radar</title>
+  <link rel="stylesheet" href="app.css">
+</head>
+<body>
+  <div class="chart">
+    <aside class="rail" aria-label="Chart information">
+      <div class="mark" aria-hidden="true">
+        <svg viewBox="0 0 96 96" role="presentation">
+          <circle cx="48" cy="48" r="44" class="ring outer"/>
+          <circle cx="48" cy="48" r="30" class="ring"/>
+          <circle cx="48" cy="48" r="15" class="ring inner"/>
+          <path d="M48 2 L53 48 L48 94 L43 48 Z" class="needle n"/>
+          <path d="M2 48 L48 43 L94 48 L48 53 Z" class="needle e"/>
+          <circle cx="48" cy="48" r="3" class="hub"/>
+          <text x="48" y="20" class="cardinal">N</text>
+        </svg>
+      </div>
+      <div class="mark-name">Survey Chart</div>
+      <div class="stamp">
+        <span class="stamp-key">Charted</span>
+        <time id="asof" datetime="">—</time>
+      </div>
+      <div class="legend" aria-label="Legend">
+        <div class="legend-title">Reading the chart</div>
+        <div class="legend-item"><span class="swatch shoal"></span>Shoal — the lead sounding</div>
+        <div class="legend-item"><span class="swatch depth"></span>Depth — implied value</div>
+        <div class="legend-item"><span class="swatch contour"></span>Contour — category band</div>
+        <div class="legend-item"><span class="swatch trading"></span>Trading — a token records</div>
+      </div>
+      <p class="rail-note">The map before the ticker. Soundings are the
+        entry's own claim from the sealed record, not a forecast of any launch.</p>
+    </aside>
+
+    <main class="main">
+      <header class="masthead">
+        <h1>The map before the ticker</h1>
+        <div class="count" aria-live="polite">
+          <span id="count" class="count-value">—</span>
+          <span id="countLabel" class="count-label">soundings charted</span>
+        </div>
+      </header>
+
+      <section class="bearings" aria-label="Chart controls">
+        <label class="control search-control">
+          <span class="control-label">Find a bearing</span>
+          <input id="q" type="search" autocomplete="off"
+            placeholder="name, category or chain">
+        </label>
+        <label class="control category-control">
+          <span class="control-label">Category</span>
+          <select id="category"><option value="all">All waters</option></select>
+        </label>
+        <div class="control mode-control">
+          <span class="control-label">Chart layer</span>
+          <div class="toggle" role="group" aria-label="Chart layer">
+            <button type="button" data-mode="pre" class="active" aria-pressed="true">Pre-token</button>
+            <button type="button" data-mode="live" aria-pressed="false">Live-token</button>
+          </div>
+        </div>
+        <span id="resultCount" class="result-count" aria-live="polite"></span>
+      </section>
+
+      <section class="table-wrap" aria-label="Depth chart">
+        <table class="depth">
+          <thead>
+            <tr>
+              <th data-sort="rank" scope="col" class="num">Sounding</th>
+              <th data-sort="name" scope="col">Protocol</th>
+              <th data-sort="category" scope="col">Category</th>
+              <th data-sort="tvl_usd" scope="col" class="num">TVL</th>
+              <th data-sort="change_7d" scope="col" class="num">7d</th>
+              <th data-sort="age_days" scope="col" class="num">Tenure</th>
+              <th data-sort="implied_value_usd" scope="col" class="num">Depth</th>
+              <th scope="col">Farm hint</th>
+            </tr>
+          </thead>
+          <tbody id="rows"></tbody>
+        </table>
+        <p id="empty" class="empty" hidden>No bearing on that reading. Try a wider search.</p>
+      </section>
+
+      <footer class="footnote">
+        <span>Depth is <code>tvl^0.86 × 0.42 × growth × tenure × peer × breadth</code>,
+          rounded to whole dollars and clamped. Open any row for the survey card.</span>
+      </footer>
+    </main>
+  </div>
+
+  <div class="drawer" id="drawer" hidden>
+    <div class="drawer-scrim" data-close></div>
+    <section class="card" role="dialog" aria-modal="true" aria-labelledby="cardTitle">
+      <button type="button" class="close" data-close aria-label="Close survey card">×</button>
+      <div class="card-head">
+        <div class="card-kicker">Survey card</div>
+        <h2 id="cardTitle">—</h2>
+        <div id="cardSub" class="card-sub">—</div>
+      </div>
+      <div id="cardBody"></div>
+    </section>
+  </div>
+
+  <script src="../data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
